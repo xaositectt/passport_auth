@@ -2,8 +2,9 @@ import express from 'express'
 import logger from 'morgan'
 import createError from 'http-errors'
 import cors from 'cors'
-import { timeLog, handleError } from './middleware/index'
+import { timeLog, handleError, session } from './middleware/index'
 import customEnv from 'custom-env'
+import uuid from 'uuid/v4'
 
 const app = express()
 const env = app.get('env')
@@ -21,8 +22,11 @@ app.use(logger('dev'))
 
 app.use(cors())
 
+app.use(session)
+
 app.get('/', (req, res) => {
-  res.status(200).json({msg: 'welcome'})
+  console.log(req.sessionID)
+  res.status(200).send({msg: `This is the homepage`})
 })
 
 app.use(function(req, res, next) {
