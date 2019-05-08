@@ -4,6 +4,8 @@ import createError from 'http-errors'
 import cors from 'cors'
 import { timeLog, handleError, session } from './middleware/index'
 import router from './router'
+import auth from './services/auth'
+import passport from 'passport'
 
 import customEnv from 'custom-env'
 
@@ -24,6 +26,9 @@ app.use(logger('dev'))
 app.use(cors())
 
 app.use(session)
+
+app.use(passport.initialize())
+app.use(passport.session())
 
 app.use('/', router)
 
